@@ -1,5 +1,6 @@
 package tests;
 import puzzle15.Board;
+import puzzle15.Fitness;
 
 /**
  * Test class for {@link Board}<br>
@@ -81,5 +82,10 @@ public class TestBoard {
 		System.out.println("Attempt to shuffle the board with 3 random moves.");
 		b.shuffle(3);
 		b.display();
+		
+		b.shuffle(15);
+		b.display();
+		// Fitness Function
+		System.out.println("fitness function: " + new Fitness().fitness_function_1(b));
 	}
 }
