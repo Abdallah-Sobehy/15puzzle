@@ -80,7 +80,7 @@ public class TestBoard {
 		
 		// Test shuffle function
 		System.out.println("Attempt to shuffle the board with 3 random moves.");
-		b.shuffle(3);
+		b.shuffle(4,2);
 		b.display();
 		
 		b.shuffle(15);

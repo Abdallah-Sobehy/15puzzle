@@ -178,11 +178,47 @@ public class Board
 		{
 			Random ran = new Random();
 			rnd = ran.nextInt(4);
+			// If the randomly selected move is not possible decrease i to repeat.
+			if (!slide((String) map.get(rnd)))
+				i--;
+			
+		}
+	}
+	
+	/*
+	 * Shuffles the board with random number of moves.
+	 * @param num_moves number of moves to be randomly executed on the board.
+	 * @param seed to generate the random moves
+	 */
+	public void shuffle(int num_moves, int seed)
+	{
+		// Map to map randomly generated integers to directions of moves
+		Map map = new HashMap();
+		map.put(0,"up"); map.put(1, "down"); map.put(2,"right"); map.put(3, "left");
+		int rnd;
+		Random ran = new Random(seed);
+		for (int i = 0 ; i < num_moves ; i++)
+		{
+			rnd = ran.nextInt(4);
 			System.out.println("Random move is : " + map.get(rnd));
 			// If the randomly selected move is not possible decrease i to repeat.
 			if (!slide((String) map.get(rnd)))
 				i--;
 			
+		}
+	}
+	/*
+	 * Copies the input board.
+	 * @param b board to be copied.
+	 */
+	public void copy_board(Board b)
+	{
+		for ( int i = 0 ; i < dim ; i++)
+		{
+			for ( int j = 0 ; j < dim ; j++)
+			{
+				board[i][j] = b.get_board()[i][j];
+			}
 		}
 	}
 }
