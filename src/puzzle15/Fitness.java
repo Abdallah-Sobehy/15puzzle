@@ -73,12 +73,34 @@ public class Fitness {
 		return  ret1 + ret2;
 	}	
 	
+	/*
+	 * fitness_function_2 considers:
+	 * 	The number of misplaced tiles
+	 * if the board is in the solved state, this function return 0
+	 * if all the tile are misplaced, this function return 1
+	 * 
+	 * @param board Board where is applied fitness function
+	 * @ return float ratio between the number of misplaced tiled,and the total number of tile
+	 */
+	
 	public float fitness_function_2(Board board) {
-		
-
-		// Implement Fitness Function 2 here
-		
-		return most_mixed_up;
+		float tiles_in_position = 0;
+		float ret = 0; 
+		int [] index;
+		int [] temp_index;
+		Board solved = new Board();
+		for(int i=0;i<17;i++){
+			if (i == 1)
+				continue;
+			index = board.get_position(i-1);
+			temp_index = solved.get_position(i-1);
+			if (index[0] == temp_index[0] && index[1] == temp_index[1])
+			{
+				tiles_in_position += 1;
+			} 
+		}
+		ret = (float)(most_mixed_up - tiles_in_position/16.0);
+		return ret;
 	}
 	
 	public float fitness_function_3(Board board) {
