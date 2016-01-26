@@ -1,9 +1,5 @@
 package puzzle15;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
 /**
  * @author Abdalla Sobehy, Fred Aklamanu, Mohsin Kazmi, Renaud
  * @version 1
@@ -26,51 +22,12 @@ public class Fitness {
 	 * 
 	 */
 	public float fitness_function_1(Board board) {
-		float tiles_in_position = 0;
 		float ret1 = 0, ret2 = 0;
-		int [] index;
-		int [] temp_index;
-		int total_tile_steps = 0;
-		Board solved = new Board();
-		
-		for ( int i = 0 ; i < 17 ; i++)
-		{
-			if (i == 1)
-				continue;
-			index = board.get_position(i-1);
-			temp_index = solved.get_position(i-1);
-				if (index[0] == temp_index[0] && index[1] == temp_index[1])
-				{
-					tiles_in_position += 1;
-				} 
-				else
-				{
-					if (index[0] < temp_index[0])	
-						total_tile_steps +=  temp_index[0] - index[0];
-					else
-						total_tile_steps += index[0] - temp_index[0];
-					
-					if (index[1] < temp_index[1])
-						total_tile_steps +=  temp_index[1] - index[1];
-					else
-						total_tile_steps += index[1] - temp_index[1];	
-				}		
-		}
 
-		ret1 = (float) (0.5 * (most_mixed_up - tiles_in_position/16.0));
-		/* In most mixed up board, by keeping maximization of tile steps
-		 * from its original position. 
-		 * |12 |15 | 9 |13 |
-		 * |11 |   |10 |14 |
-		 * | 8 | 3 | 2 | 5 |
-		 * | 4 | 7 | 6 | 1 |
-		 * 
-		 * In this case, we require 60 single tile moves
-		 */
-		//System.out.println("total steps required: " + total_tile_steps);
-		ret2 = (float) (0.5 * (total_tile_steps/60.0)); 
+		ret1 = tiles_in_position(board);
+		ret2 = displace_tiles_steps(board); 
 	
-		return  ret1 + ret2;
+		return (float) (0.5 * ret1 + 0.5 * ret2);
 	}	
 	
 	/*
@@ -84,6 +41,18 @@ public class Fitness {
 	 */
 	
 	public float fitness_function_2(Board board) {
+		return tiles_in_position(board);
+	}
+	
+	public float fitness_function_3(Board board) {
+		
+		
+		// Implement Fitness Function 3 here
+		
+		return most_mixed_up;
+	}
+	
+	private float tiles_in_position(Board board) {
 		float tiles_in_position = 0;
 		float ret = 0; 
 		int [] index;
@@ -102,13 +71,43 @@ public class Fitness {
 		ret = (float)(most_mixed_up - tiles_in_position/16.0);
 		return ret;
 	}
-	
-	public float fitness_function_3(Board board) {
-		
-		
-		// Implement Fitness Function 3 here
-		
-		return most_mixed_up;
-	}
 
+	private float displace_tiles_steps(Board board) {
+		float total_tile_steps = 0;
+		float ret = 0; 
+		int [] index;
+		int [] temp_index;
+		Board solved = new Board();
+		for(int i=0;i<17;i++){
+			if (i == 1)
+				continue;
+			index = board.get_position(i-1);
+			temp_index = solved.get_position(i-1);
+			if (!(index[0] == temp_index[0] && index[1] == temp_index[1]))
+			{
+				if (index[0] < temp_index[0])	
+					total_tile_steps +=  temp_index[0] - index[0];
+				else
+					total_tile_steps += index[0] - temp_index[0];
+		
+				if (index[1] < temp_index[1])
+					total_tile_steps +=  temp_index[1] - index[1];
+				else
+					total_tile_steps += index[1] - temp_index[1];
+			}
+		}
+		
+		/* In most mixed up board, by keeping maximization of tile steps
+		 * from its original position. 
+		 * |12 |15 | 9 |13 |
+		 * |11 |   |10 |14 |
+		 * | 8 | 3 | 2 | 5 |
+		 * | 4 | 7 | 6 | 1 |
+		 * 
+		 * In this case, we require 60 single tile moves
+		 */
+		//System.out.println("total steps required: " + total_tile_steps);
+		ret = (float) (total_tile_steps/60.0);
+		return ret;
+	}
 }
