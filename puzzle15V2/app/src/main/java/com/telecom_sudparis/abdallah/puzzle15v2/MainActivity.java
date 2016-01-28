@@ -13,6 +13,11 @@ public class MainActivity extends AppCompatActivity {
     Button [][] tiles;
     final int X_DIFF = 264;
     final int Y_DIFF = 144;
+    int board_dim = 4;
+    int shuffle_times = 100;
+    int shuffle_seed = 2;
+    // Empty tile is represented by a button that will not be visible on the screen
+    Button empty_tile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize board
         board = new Board();
         // Initialize tiles 2D array to be able to point to buttons (The buttons should correspond to their
-        // values in the board (except the empty tile as there is no button for it). Thus, initialized to their solved position.
+        // values in the board. Thus, initialized to their solved position.
         tiles = new Button [4][4];
         tiles[0][0] = (Button)findViewById(R.id.tile_1);
         tiles[0][1] = (Button)findViewById(R.id.tile_2);
@@ -37,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
         tiles[3][0] = (Button)findViewById(R.id.tile_13);
         tiles[3][1] = (Button)findViewById(R.id.tile_14);
         tiles[3][2] = (Button)findViewById(R.id.tile_15);
+
+        // Empty tile is represented by a button that will not be visible on the screen
+        empty_tile =new Button(this);
+        empty_tile.setText("-1");
+        tiles[3][3] = empty_tile;
 
 
 
@@ -55,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                             tiles[t_move[0]][t_move[1]].animate().translationYBy(-Y_DIFF);
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]-1][t_move[1]] = tiles[t_move[0]][t_move[1]];
+                            tiles[t_move[0]][t_move[1]] = empty_tile;
                             System.out.println("Slided Up.");
                         }
                     }
@@ -76,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             tiles[t_move[0]][t_move[1]].animate().translationYBy(Y_DIFF);
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]+1][t_move[1]] = tiles[t_move[0]][t_move[1]];
+                            tiles[t_move[0]][t_move[1]] = empty_tile;
                             System.out.println("Slided down.");
                         }
 
@@ -98,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             tiles[t_move[0]][t_move[1]].animate().translationXBy(X_DIFF);
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]][t_move[1]+1] = tiles[t_move[0]][t_move[1]];
+                            tiles[t_move[0]][t_move[1]] = empty_tile;
                             System.out.println("Slided right.");
                         }
 
@@ -120,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                             tiles[t_move[0]][t_move[1]].animate().translationXBy(-X_DIFF);
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]][t_move[1]-1] = tiles[t_move[0]][t_move[1]];
+                            tiles[t_move[0]][t_move[1]] = empty_tile;
                             System.out.println("Slided left.");
                         }
 
@@ -127,6 +141,74 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-
+        Button btn_shuffle = (Button)findViewById(R.id.btn_shuffle);
+        btn_shuffle.setOnClickListener(
+                new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Shuffle the board
+                        board.shuffle(shuffle_times);
+                        // Temp values to update the interface and buttons 2D array with the new state of the board.
+                        // Stores the value of the string text of the button
+                        String tmp_value;
+                        // position of the tile in the shuffles board
+                        int[] tmp_pos;
+                        // tmp button for aimating the selected button to match the button to match the position in the shuffled board
+                        Button tmp_button;
+                        // 2D array of buttons stores new positions of buttons to be pointed at by the global tiles array in the end.
+                        Button[][] tmp_tiles = new Button[4][4];
+                        board.display();
+                        for (int i = 0; i < board_dim; i++) {
+                            for (int j = 0; j < board_dim; j++) {
+                                tmp_button = tiles[i][j];
+                                tmp_value = (String) (tmp_button).getText();
+                                tmp_pos = board.get_position(Integer.parseInt(tmp_value));
+                                tmp_button.animate().translationXBy((tmp_pos[1] - j) * X_DIFF);
+                                tmp_button.animate().translationYBy((tmp_pos[0] - i) * Y_DIFF);
+                                tmp_tiles[tmp_pos[0]][tmp_pos[1]] = tmp_button;
+                            }
+                        }
+                        tiles = tmp_tiles;
+                    }
+                }
+        );
     }
+    /*
+    Display the content of the buttons 2D array on the terminal (for testing reasons)
+    */
+    void display_buttons(Button[][] tiles)
+    {
+        System.out.print("|");
+        for (int i = 0; i < board_dim; i++) {
+            for (int j = 0; j < board_dim; j++) {
+                // Switch case to decide the output depending on the value of the tile
+                switch (Integer.parseInt((String) (tiles[i][j]).getText())) {
+                    // Case no tile (empty) which is represented by -1
+                    case -1:
+                        System.out.print("  |");
+                        break;
+                    // Case of two digit value tile
+                    case 10:
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                        System.out.print((String) (tiles[i][j]).getText() + "|");
+                        break;
+                    // Case for a one digit value number
+                    default:
+                        System.out.print((String) (tiles[i][j]).getText() + " |");
+                }
+                if (j == board_dim-1)
+                {
+                    System.out.print("\n");
+                    if (i != board_dim-1)
+                        System.out.print("|");
+                }
+            }
+        }
+        System.out.println();
+    }
+
 }
