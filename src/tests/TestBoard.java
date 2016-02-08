@@ -1,6 +1,9 @@
 package tests;
+import java.util.Stack;
+
 import puzzle15.Board;
 import puzzle15.Fitness;
+import puzzle15.Solver;
 
 /**
  * Test class for {@link Board}<br>
@@ -82,10 +85,24 @@ public class TestBoard {
 		System.out.println("Attempt to shuffle the board with 3 random moves.");
 		b.shuffle(4,2);
 		b.display();
-		
-		b.shuffle(15);
-		b.display();
+		Board b1 = new Board();
+		b1.shuffle(15);
+		b1.display();
 		// Fitness Function
-		System.out.println("fitness function: " + new Fitness().fitness_function_1(b));
+		System.out.println("fitness function: " + new Fitness().fitness_function_1(b1));
+		
+		Solver solve = new Solver();
+		/*Stack<Board> stack = new Stack<Board>();
+        for (Board board : solve.solver(b1))
+        	stack.push(board);
+        while(!stack.isEmpty()){
+          //stack.peek().display();
+          stack.pop();
+        	// System.out.println(stack.pop());
+        }*/
+		Board board = solve.solver(b1);
+		board.display();
+		System.out.println("fitness function of solved board: " + new Fitness().fitness_function_1(board));
+     
 	}
 }

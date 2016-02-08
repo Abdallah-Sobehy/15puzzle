@@ -49,6 +49,7 @@ public class Fitness {
 		
 		// Implement Fitness Function 3 here
 		
+		
 		return most_mixed_up;
 	}
 	
@@ -107,7 +108,7 @@ public class Fitness {
 		 * In this case, we require 60 single tile moves
 		 */
 		//System.out.println("total steps required: " + total_tile_steps);
-		ret = (float) (total_tile_steps/60.0);
+		ret = (float) (total_tile_steps/60);
 		return ret;
 	}
 }

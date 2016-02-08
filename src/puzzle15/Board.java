@@ -15,9 +15,12 @@ public class Board
 {
 	private int dim = 4;
 	private int [][] board = new int [dim][dim];
+	private float fitnessValue;
+	private Fitness fit;
 	/*
 	 * Constructor initializes the board in the solved position
 	 * The empty tile is represented by -1
+	 * It also initialize the fitness value to zero for solved board.
 	 */
 	public Board()
 	{
@@ -30,6 +33,10 @@ public class Board
 		}
 		// write the empty tile to -1 
 		board[dim-1][dim-1] = -1;
+		
+		fit = new Fitness();
+		
+		fitnessValue = 0;
 	}
 	/*
 	 * @return 2D representation of the board
@@ -38,6 +45,15 @@ public class Board
 	{
 		return board;
 	}
+	
+	/*
+	 * @return fitness value of the board
+	 */
+	public float get_fitnessValue()
+	{
+		return fitnessValue;
+	}
+	
 	/*
 	 * Displays the board
 	 */
@@ -77,6 +93,7 @@ public class Board
 				}
 			}
 		}
+		System.out.println("Fitness Value = " + fitnessValue);
 		System.out.println();
 	}
 	/*
@@ -161,6 +178,8 @@ public class Board
 			default:
 				throw new IllegalArgumentException("Wrong input to slide function");
 		}
+		// Update fitness value according to new board
+		fitnessValue = fit.fitness_function_1(this);
 			return true;
 	}
 
@@ -220,5 +239,32 @@ public class Board
 				board[i][j] = b.get_board()[i][j];
 			}
 		}
+		
+		fitnessValue = b.fitnessValue;
+	}
+	
+	/*
+	 * Copies the input board.
+	 * @param b int[][] to be copied.
+	 */
+	public void copy_board(int[][] b)
+	{
+		for ( int i = 0 ; i < dim ; i++)
+		{
+			for ( int j = 0 ; j < dim ; j++)
+			{
+				board[i][j] = b[i][j];
+			}
+		}
+		
+		fitnessValue = fit.fitness_function_1(this);
+	}
+	
+	/*
+	 * Set the fitness Value of the board
+	 */
+	public void set_fitnessValue(float fitnessValue)
+	{
+		this.fitnessValue = fitnessValue;
 	}
 }
