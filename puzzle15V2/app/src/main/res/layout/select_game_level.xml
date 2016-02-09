@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Snail"
+        android:id="@+id/snailId"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/runId"
+        android:layout_alignStart="@+id/runId"
+        android:layout_marginTop="181dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="walk"
+        android:id="@+id/walkId"
+        android:layout_below="@+id/snailId"
+        android:layout_alignLeft="@+id/snailId"
+        android:layout_alignStart="@+id/snailId" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="run"
+        android:id="@+id/runId"
+        android:layout_below="@+id/walkId"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Select Game Level"
+        android:id="@+id/levelId"
+        android:layout_marginBottom="61dp"
+        android:layout_alignBottom="@+id/snailId"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

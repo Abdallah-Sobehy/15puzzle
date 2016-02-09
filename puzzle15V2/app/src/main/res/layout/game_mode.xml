@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Game Mode"
+        android:id="@+id/gameModeId"
+        android:layout_marginLeft="118dp"
+        android:layout_marginStart="118dp"
+        android:layout_above="@+id/computerID"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="21dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Computer "
+        android:id="@+id/computerID"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/gameModeId"
+        android:layout_alignStart="@+id/gameModeId" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Player"
+        android:id="@+id/playerId"
+        android:layout_below="@+id/computerID"
+        android:layout_alignLeft="@+id/computerID"
+        android:layout_alignStart="@+id/computerID"
+        android:layout_alignRight="@+id/computerID"
+        android:layout_alignEnd="@+id/computerID" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/gameModeId"
+        android:layout_toEndOf="@+id/gameModeId" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Welcome"
+        android:id="@+id/loginId"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
+
+</RelativeLayout>
