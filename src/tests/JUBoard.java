@@ -2,9 +2,10 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import puzzle15.Board;
+import puzzle15.Fitness;
 
 public class JUBoard 
 {
@@ -102,7 +103,7 @@ public class JUBoard
 				{13,14,11,-1}
 				};
 		b.shuffle(4,2);
-		assertArrayEquals("Unexpected outcoe with shuffle.",expected, b.get_board());
+		assertArrayEquals("Unexpected outcome with shuffle.",expected, b.get_board());
 	}
 	/*
 	 * Test copy board function
@@ -115,5 +116,21 @@ public class JUBoard
 		b.shuffle(15);
 		tmp.copy_board(b);
 		assertArrayEquals("Error in copy board function",tmp.get_board(), b.get_board());
+	}
+	/*
+	 * Test shuffle function with a fitness value between a range
+	 */
+	@Test
+	public void test_shuffle_fitness()
+	{
+		float min = (float)0.4;
+		float max = (float)0.7;
+		
+		Fitness f = new Fitness();
+		b.shuffle(min, max); 
+		float actual_fit_val = f.fitness_function_1(b);
+		assertTrue(actual_fit_val <=  max);
+		assertTrue(actual_fit_val >= min);
+		
 	}
 }

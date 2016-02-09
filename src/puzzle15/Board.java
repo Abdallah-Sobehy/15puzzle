@@ -219,13 +219,39 @@ public class Board
 		for (int i = 0 ; i < num_moves ; i++)
 		{
 			rnd = ran.nextInt(4);
-			System.out.println("Random move is : " + map.get(rnd));
+			//System.out.println("Random move is : " + map.get(rnd));
 			// If the randomly selected move is not possible decrease i to repeat.
 			if (!slide((String) map.get(rnd)))
 				i--;
 			
 		}
 	}
+	
+	/*
+	 * Shuffles the board to obtain a board state with a fitness function value in a specified range
+	 * The values are checked against fitness function 1 values
+	 * @param min minimum fitness function value for the shuffled board (between 0 and 1)
+	 * @param max maximum fitness function value for the shuffled board (between 0 and 1)
+	 * Recommended ranges: Easy [0.2,0.4], Medium [0.4,0.7], Hard [0.7,1]
+	 * TODO Exceptions if min, max values are not in the correct range and that min < max
+	 */
+	public void shuffle(float min, float max)
+	{
+		Fitness myFitness = new Fitness();
+		// fitness value of the board.
+		float fitness_val = myFitness.fitness_function_1(this);
+		System.out.println("Initial fitness value of the board:  "+ fitness_val );
+		int shuffles = 0;
+		while (fitness_val < min || fitness_val > max)
+		{
+			shuffle(5);
+			shuffles ++;
+			fitness_val = myFitness.fitness_function_1(this);
+			System.out.println("Fitness value of the board:  "+ fitness_val+ " after " + shuffles + " shuffles" );
+		}
+		display();
+	}
+	
 	/*
 	 * Copies the input board.
 	 * @param b board to be copied.
