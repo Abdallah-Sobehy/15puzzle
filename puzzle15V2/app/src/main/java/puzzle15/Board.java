@@ -15,6 +15,7 @@ public class Board
 {
 	private int dim = 4;
 	private int [][] board = new int [dim][dim];
+
 	/*
 	 * Constructor initializes the board in the solved position
 	 * The empty tile is represented by -1

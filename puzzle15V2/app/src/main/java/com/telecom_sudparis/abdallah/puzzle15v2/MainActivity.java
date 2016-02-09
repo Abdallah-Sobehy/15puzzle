@@ -1,9 +1,16 @@
 package com.telecom_sudparis.abdallah.puzzle15v2;
 import puzzle15.*;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.TextView;
 
 import java.util.prefs.Preferences;
 
@@ -16,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
     int board_dim = 4;
     int shuffle_times = 100;
     int shuffle_seed = 2;
+    int nbOfMoves = 0;   // Tracks number of moves by user
+    TextView moves;     // Display number of moves
+  //  TextView myTimer;
+    Chronometer myChronometer;
+    long startTime;
+
     // Empty tile is represented by a button that will not be visible on the screen
     Button empty_tile;
     @Override
@@ -51,6 +64,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button btn_up = (Button)findViewById(R.id.btn_up);
+        moves = (TextView)findViewById(R.id.movesId);
+        moves.setText("Moves: " + nbOfMoves);
+
+
+      //  myChronometer.setBase(SystemClock.elapsedRealtime());
+        //myChronometer.setBase(SystemClock.elapsedRealtime());
+
+
         btn_up.setOnClickListener(
                 new Button.OnClickListener()
                 {
@@ -66,7 +87,11 @@ public class MainActivity extends AppCompatActivity {
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]-1][t_move[1]] = tiles[t_move[0]][t_move[1]];
                             tiles[t_move[0]][t_move[1]] = empty_tile;
+                            nbOfMoves += 1;
+                            System.out.println("Number of Moves: " + nbOfMoves);
+                            moves.setText("Moves: " + nbOfMoves);
                             System.out.println("Slided Up.");
+
                         }
                     }
                 }
@@ -88,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]+1][t_move[1]] = tiles[t_move[0]][t_move[1]];
                             tiles[t_move[0]][t_move[1]] = empty_tile;
+                            nbOfMoves += 1;
+                            System.out.println("Number of Moves: " + nbOfMoves );
+                            moves.setText("Moves: " + nbOfMoves);
                             System.out.println("Slided down.");
                         }
 
@@ -97,26 +125,58 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn_right = (Button)findViewById(R.id.btn_right);
         btn_right.setOnClickListener(
-                new Button.OnClickListener()
-                {
+                new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // If slide right is valid
-                        if (board.slide("right"))
-                        {
+                        if (board.slide("right")) {
                             // Position of the tile to be moved [Replaced by the empty tile in slide function]
-                            int [] t_move = board.get_position(-1);
+                            int[] t_move = board.get_position(-1);
                             // Move the button
                             tiles[t_move[0]][t_move[1]].animate().translationXBy(X_DIFF);
                             // Update the place of the button to match the one in the board
-                            tiles[t_move[0]][t_move[1]+1] = tiles[t_move[0]][t_move[1]];
+                            tiles[t_move[0]][t_move[1] + 1] = tiles[t_move[0]][t_move[1]];
                             tiles[t_move[0]][t_move[1]] = empty_tile;
+                            nbOfMoves += 1;
+                            System.out.println("Number of Moves: " + nbOfMoves);
+                            moves.setText("Moves: " + nbOfMoves);
                             System.out.println("Slided right.");
                         }
 
                     }
                 }
         );
+
+//        myTimer = (TextView)findViewById(R.id.timerId);
+//
+//        new CountDownTimer(60000, 1000) {
+//
+//
+//            // Sets the Timer
+//            public void onTick(long millisUntilFinished) {
+//                myTimer.setText("Timer: " + millisUntilFinished / 1000 );
+//            }
+//
+//            // Stops the timer and display the end of game
+//            public void onFinish() {
+//                System.out.println("Game Over!!!");
+//                AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+//                alertDialog.setTitle("Game Over!!!");
+//                alertDialog.setMessage("Total Number of Moves " + nbOfMoves );
+//                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Restart Game",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//
+//                            }
+//                        });
+//                alertDialog.show();
+//                // myTimer.setText("Game Over!!!");
+//            }
+//        }.start();
+
+        // Resets the Timer
+
 
         Button btn_left = (Button)findViewById(R.id.btn_left);
         btn_left.setOnClickListener(
@@ -134,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
                             // Update the place of the button to match the one in the board
                             tiles[t_move[0]][t_move[1]-1] = tiles[t_move[0]][t_move[1]];
                             tiles[t_move[0]][t_move[1]] = empty_tile;
+                            nbOfMoves += 1;
+                            System.out.println("Number of Moves: " + nbOfMoves );
+                            moves.setText("Moves: " + nbOfMoves );
                             System.out.println("Slided left.");
                         }
 
@@ -169,6 +232,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         tiles = tmp_tiles;
+                        nbOfMoves = 0;
+                        moves.setText("Moves: " + nbOfMoves );
+                        myChronometer = (Chronometer)findViewById(R.id.chronometerId);
+                        myChronometer.setText("Timer: " + "00:00");
+                        myChronometer.setBase(SystemClock.elapsedRealtime());
+                        myChronometer.start();
+
+
                     }
                 }
         );
