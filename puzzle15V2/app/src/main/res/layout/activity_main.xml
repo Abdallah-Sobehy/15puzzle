@@ -209,6 +209,16 @@
         android:layout_column="2"
         android:text="TIMER:" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="FV:"
+        android:id="@+id/fitnessId"
+        android:layout_row="15"
+        android:layout_column="3"
+        android:textColor="#0b0101" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
