@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * @author Abdalla Sobehy, Fred Aklamanu, Mohsin Kazmi, Renaud
+ * @author Abdallah Sobehy, Fred Aklamanu, Mohsin Kazmi, Renaud
  * @version 1
  * <tt> Board </tt> is a board for the puzzle 15 game.<br>
 * The board is a 4x4 2D integer array with 15 tiles numbered from 1 to 15 and one empty tile.
@@ -219,7 +219,7 @@ public class Board
 		for (int i = 0 ; i < num_moves ; i++)
 		{
 			rnd = ran.nextInt(4);
-			//System.out.println("Random move is : " + map.get(rnd));
+			System.out.println("Random move is : " + map.get(rnd));
 			// If the randomly selected move is not possible decrease i to repeat.
 			if (!slide((String) map.get(rnd)))
 				i--;
