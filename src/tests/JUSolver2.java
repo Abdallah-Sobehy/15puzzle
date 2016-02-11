@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -79,10 +80,15 @@ public class JUSolver2 {
 	public void test_solve()
 	{
 		//b.shuffle((float)0.3,(float)0.5);
-		b.shuffle(30, 2);
+		b.shuffle(27, 1);
 		b.display();
+		Scanner in = new Scanner(System.in);
+		System.out.println("Press enter to beign solving");
+	    in.nextLine();
 		ArrayList<String> beat_moves = solver.solve(b);
 		System.out.println(beat_moves);
+		if (beat_moves != null)
+			System.out.println("number of moves : " + beat_moves.size());
 	}
 
 }

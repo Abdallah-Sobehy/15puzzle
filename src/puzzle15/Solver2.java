@@ -14,15 +14,19 @@ import java.util.Stack;
 */
 public class Solver2 {
 	// Board to be solved
-	private Board board = new Board();;
+	private Board board = new Board();
 	// Fitness value for the board before executing the next move
 	private float current_fit_val;
 	// number of moves to reach the solution
 	private int num_moves;
-	// maximum depth of the tree traversed to find the next move
-	private int max_depth;
+	// depth of the tree traversed to find the next move
+	private int depth;
+	// Maximum depth reached while solving the board
+	private int max_depth_reached;
 	// Move done in last step
 	private String last_move;
+	// Max allowed depth in the tree (more than that it takes too much time
+	private final int max_depth_allowed = 13;
 	// Fitness class object
 	Fitness fit = new Fitness();
 	// Maps moves Strings to integer to facilitate traversing
@@ -36,7 +40,8 @@ public class Solver2 {
 //		board.copy_board(b.get_board());
 //		current_fit_val = fit.fitness_function_1(board);
 		num_moves = 0;
-		max_depth = 0;
+		depth = 0;
+		max_depth_reached = 0;
 		last_move = "none";
 		map.put(0,"up"); map.put(1, "down"); map.put(2,"right"); map.put(3, "left");
 	}
@@ -62,7 +67,7 @@ public class Solver2 {
 		while (iterator.hasNext()) {
 			String move =  iterator.next();
 			tmp.slide(move);
-			float tmp_fit_val = fit.fitness_function_3(tmp);
+			float tmp_fit_val = fit.fitness_function_1(tmp);
 			if ( tmp_fit_val < min_fit_val){
 				min_fit_val = tmp_fit_val;
 				min_fit_move = move;
@@ -86,12 +91,15 @@ public class Solver2 {
 	{
 		Iterator<Board> board_iterator = listOfBoards.iterator();
 		Iterator<ArrayList<String>> lOfMoves_iterator = lOflOfMoves.iterator();
-		System.out.println("Calling beat_current");
+		//System.out.println("Calling beat_current");
 		// Update current fitness value the first time the function is called (when lOflOfMoves has 1 element which is empty move)
 		if (lOflOfMoves.get(0).size() == 1)
 		{
-			current_fit_val = fit.fitness_function_3(listOfBoards.get(0));
-			System.out.println("Updating current fitness value to : " +  current_fit_val);
+			current_fit_val = fit.fitness_function_1(listOfBoards.get(0));
+//			System.out.println("Updating current fitness value to : " +  current_fit_val);
+			// Reset maximum depth reached
+			depth = 0;
+			
 //			System.out.println("First input board: " + listOfBoards.size());
 //			listOfBoards.get(0).display();
 		}
@@ -120,12 +128,23 @@ public class Solver2 {
 		if (min_fit_val < current_fit_val)
 		{
 			lOflOfMoves.get(minIndex).add(new String (min_fit_move));
-			System.out.println("fit_val before beat current: " + current_fit_val + " After: " + min_fit_val);
+			//System.out.println("fit_val before beat current: " + current_fit_val + " After: " + min_fit_val);
 			//System.out.println("Moves: "+lOflOfMoves.get(minIndex) );
 			return lOflOfMoves.get(minIndex);
 		}
 		else
 		{
+			// Increment maximum depth reached
+			depth ++ ;
+			// Update maximum deoth reached
+			if (depth > max_depth_reached)
+			{
+				max_depth_reached = depth;
+				if (max_depth_reached == max_depth_allowed)
+				{
+					return null;
+				}
+			}
 			// Return the iterator to the start of the list of boards.
 			board_iterator = listOfBoards.listIterator();
 			lOfMoves_iterator = lOflOfMoves.listIterator();
@@ -140,7 +159,7 @@ public class Solver2 {
 				ArrayList<String> moves = lOfMoves_iterator.next();
 				//System.out.println(moves);
 				String prev_move = moves.get(moves.size() - 1);
-				System.out.println("Possible moves except : " + opposite_move(prev_move));
+				//System.out.println("Possible moves except : " + opposite_move(prev_move));
 				ArrayList<String> possible_moves = possible_moves(b, prev_move);
 				//System.out.println(possible_moves);
 				Iterator<String> pos_moves_iterator = possible_moves.iterator();
@@ -159,10 +178,13 @@ public class Solver2 {
 					ArrayList<String> tmp = new ArrayList<String>(moves);
 					next_level_lOflOfMoves.add(tmp);
 					next_level_lOflOfMoves.get(next_level_lOflOfMoves.size() -1 ).add(new String(slide_direction));
-					
 				}
-				System.out.println(next_level_lOflOfMoves);
+
 			}
+//			Scanner in = new Scanner(System.in);
+//			System.out.println("Press enter to see the next possible moves");
+//		    in.nextLine();
+			//System.out.println(next_level_lOflOfMoves);
 
 			//System.out.println(next_level_lOflOfMoves);
 //			return null;
@@ -188,31 +210,38 @@ public class Solver2 {
 		// Last move initilaized to empty first time
 		String last_move = "";
 		// Initialize current_fit_val
-		current_fit_val = fit.fitness_function_3(b);
+		current_fit_val = fit.fitness_function_1(b);
 		while (current_fit_val != 0.0)
 		{
 			// Call pre_beat_current for initalizations
 			pre_beat_current(tmp_b, l_b, lOflOfMoves, last_move);
 			
 			ArrayList<String> beat_moves = beat_current_fit(l_b, lOflOfMoves);
-			System.out.println("Moves: "+beat_moves );
+			//System.out.println("Moves: "+beat_moves );
+			if (beat_moves == null)
+			{
+				System.out.println("Depth of 13 is reached ! Board state can not be solved.");
+				return null;
+			}
 			Iterator<String> moves_iterator = beat_moves.iterator();
 			// Ignore the first move because it is the last move before sending the board 
 			moves_iterator.next();
 			while (moves_iterator.hasNext())
 			{
-				Scanner in = new Scanner(System.in);
-				System.out.println("Enter a string");
-			    in.nextLine();
+//				Scanner in = new Scanner(System.in);
+//				System.out.println("Enter a string");
+//			    in.nextLine();
 			    
 				String s = moves_iterator.next();
 				solve_moves.add(new String(s));
 				tmp_b.slide(s);
 				tmp_b.display();				
 			}
-			current_fit_val = fit.fitness_function_3(tmp_b);
+			current_fit_val = fit.fitness_function_1(tmp_b);
 			last_move = beat_moves.get(beat_moves.size() - 1);
 		}
+		//System.out.println("Maximum depth reached = " + max_depth_reached);
+		solve_moves.add(Integer.toString(max_depth_reached));
 		return solve_moves;
 	}
 	/*

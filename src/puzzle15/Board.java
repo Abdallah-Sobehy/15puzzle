@@ -219,7 +219,7 @@ public class Board
 		for (int i = 0 ; i < num_moves ; i++)
 		{
 			rnd = ran.nextInt(4);
-			System.out.println("Random move is : " + map.get(rnd));
+			//System.out.println("Random move is : " + map.get(rnd));
 			// If the randomly selected move is not possible decrease i to repeat.
 			if (!slide((String) map.get(rnd)))
 				i--;
@@ -240,14 +240,14 @@ public class Board
 		Fitness myFitness = new Fitness();
 		// fitness value of the board.
 		float fitness_val = myFitness.fitness_function_1(this);
-		System.out.println("Initial fitness value of the board:  "+ fitness_val );
+		//System.out.println("Initial fitness value of the board:  "+ fitness_val );
 		int shuffles = 0;
 		while (fitness_val < min || fitness_val > max)
 		{
 			shuffle(5);
 			shuffles ++;
 			fitness_val = myFitness.fitness_function_1(this);
-			System.out.println("Fitness value of the board:  "+ fitness_val+ " after " + shuffles + " shuffles" );
+			//System.out.println("Fitness value of the board:  "+ fitness_val+ " after " + shuffles + " shuffles" );
 		}
 		display();
 	}
