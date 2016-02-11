@@ -16,7 +16,7 @@ public class Board
 	private int dim = 4;
 	private int [][] board = new int [dim][dim];
 	private float fitnessValue;
-	private Fitness fit;
+	private Fitness fitness;
 	/*
 	 * Constructor initializes the board in the solved position
 	 * The empty tile is represented by -1
@@ -33,8 +33,38 @@ public class Board
 		}
 		// write the empty tile to -1 
 		board[dim-1][dim-1] = -1;
+		fitness = new Fitness2();
+		fitnessValue = 0;
+	}
+	
+	/*
+	 * Constructor initializes the board in the solved position
+	 * The empty tile is represented by -1
+	 * It also initialize the fitness value to zero for solved board.
+	 */
+	public Board(int fit)
+	{
+		for ( int i = 0 ; i < dim ; i++)
+		{
+			for ( int j = 0 ; j < dim ; j++)
+			{
+				board[i][j] = j + 1 + (i*dim);
+			}
+		}
+		// write the empty tile to -1 
+		board[dim-1][dim-1] = -1;
 		
-		fit = new Fitness();
+		switch(fit) {
+		case 1:
+			fitness = new Fitness1();
+			break;
+		case 2:
+			fitness = new Fitness2();
+			break;
+		case 3:
+			fitness = new Fitness3();
+			break;
+		}
 		
 		fitnessValue = 0;
 	}
@@ -179,7 +209,7 @@ public class Board
 				throw new IllegalArgumentException("Wrong input to slide function");
 		}
 		// Update fitness value according to new board
-		fitnessValue = fit.fitness_function_1(this);
+		fitnessValue = fitness.fitness_function(this);
 			return true;
 	}
 
@@ -237,16 +267,16 @@ public class Board
 	 */
 	public void shuffle(float min, float max)
 	{
-		Fitness myFitness = new Fitness();
+		//Fitness myFitness = new Fitness();
 		// fitness value of the board.
-		float fitness_val = myFitness.fitness_function_1(this);
+		float fitness_val = fitness.fitness_function(this);
 		//System.out.println("Initial fitness value of the board:  "+ fitness_val );
 		int shuffles = 0;
 		while (fitness_val < min || fitness_val > max)
 		{
 			shuffle(5);
 			shuffles ++;
-			fitness_val = myFitness.fitness_function_1(this);
+			fitness_val = fitness.fitness_function(this);
 			//System.out.println("Fitness value of the board:  "+ fitness_val+ " after " + shuffles + " shuffles" );
 		}
 		display();
@@ -283,7 +313,7 @@ public class Board
 			}
 		}
 		
-		fitnessValue = fit.fitness_function_1(this);
+		fitnessValue = fitness.fitness_function(this);
 	}
 	
 	/*

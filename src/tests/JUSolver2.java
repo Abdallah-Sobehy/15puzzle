@@ -15,7 +15,7 @@ import puzzle15.Solver2;
 
 public class JUSolver2 {
 
-	private Solver2 solver = new Solver2();
+	private Solver2 solver = new Solver2(1);
 	Board b;
 	@Before
 	public void setUp() throws Exception {
@@ -80,7 +80,7 @@ public class JUSolver2 {
 	public void test_solve()
 	{
 		//b.shuffle((float)0.3,(float)0.5);
-		b.shuffle(27, 1);
+		b.shuffle(25,11);
 		b.display();
 		Scanner in = new Scanner(System.in);
 		System.out.println("Press enter to beign solving");

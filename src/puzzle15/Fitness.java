@@ -8,50 +8,13 @@ package puzzle15;
  * return: value b/w 0 and 1. ( 0 means solved state & 1 means most mixed up state of the board )
  * Tested by {@link TestBoard}
  */
-public class Fitness {
+public abstract class Fitness {
 
 	private float most_mixed_up = 1;
 	
-	/*
-	 * fitness_function_1 considers:
-	 * 	1) tile current position (means give weightage to each tile place) and 
-	 *  2) distance in terms of steps from the tile original position.
-	 * 
-	 * Algorithm gives 50% weightage to 1) and 50% weightage to 2) for calculating
-	 * fitness value of given board and at the end, both values are added up to return.
-	 * 
-	 */
-	public float fitness_function_1(Board board) {
-		float ret1 = 0, ret2 = 0;
-
-		ret1 = tiles_in_position(board);
-		ret2 = displace_tiles_steps(board); 
 	
-		return (float) (0.5 * ret1 + 0.5 * ret2);
-	}	
-	
-	/*
-	 * fitness_function_2 considers:
-	 * 	The number of misplaced tiles
-	 * if the board is in the solved state, this function return 0
-	 * if all the tile are misplaced, this function return 1
-	 * 
-	 * @param board Board where is applied fitness function
-	 * @ return float ratio between the number of misplaced tiled,and the total number of tile
-	 */
-	
-	public float fitness_function_2(Board board) {
-		return tiles_in_position(board);
-	}
-	
-	public float fitness_function_3(Board board) {
-		
-		
-		return displace_tiles_steps(board); 
-		
-	}
-	
-	private float tiles_in_position(Board board) {
+	public abstract float fitness_function(Board board);
+	protected float tiles_in_position(Board board) {
 		float tiles_in_position = 0;
 		float ret = 0; 
 		int [] index;
@@ -71,7 +34,7 @@ public class Fitness {
 		return ret;
 	}
 
-	private float displace_tiles_steps(Board board) {
+	protected float displace_tiles_steps(Board board) {
 		float total_tile_steps = 0;
 		float ret = 0; 
 		int [] index;

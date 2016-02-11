@@ -43,7 +43,7 @@ public class Solver {
 	    }
 
 	    public Board solver(Board initial){
-	    	int i = 80;
+	    	int i = 200;
 	    	Board board = new Board();
 	    	Board board1 = new Board();
 	    	Board board2 = new Board();
@@ -53,8 +53,8 @@ public class Solver {
 	    	float initialValue, fitnessValue;
 	    	boolean upFlag = true, downFlag = true, leftFlag = true, rightFlag = true;
 	    	float upValue, downValue, leftValue, rightValue;
-	    	Fitness fit = new Fitness();
-	    	initialValue = fit.fitness_function_1(initial);
+	    	Fitness fit = new Fitness1();
+	    	initialValue = fit.fitness_function(initial);
 	    	
 	    	board.copy_board(initial);
 	    	fitnessValue = initialValue;
@@ -98,7 +98,7 @@ public class Solver {
 	    		board4.copy_board(board);
 	    		if (board1.slide("up") && upFlag) {
 	    			//System.out.println("UP *************");
-	    			upValue = fit.fitness_function_1(board1);
+	    			upValue = fit.fitness_function(board1);
 	    			n1 = new Node(board1, upValue, n);
 	    			queue.add(n1);
 	    			//count++;
@@ -108,7 +108,7 @@ public class Solver {
 	    		}
 	    		if (board2.slide("down") && downFlag) {
 	    			//System.out.println("down *************");
-	    			downValue = fit.fitness_function_1(board2);
+	    			downValue = fit.fitness_function(board2);
 	    			n2 = new Node(board2, downValue, n);
 	    			queue.add(n2);
 	    			//count++;
@@ -118,7 +118,7 @@ public class Solver {
 	    		}
 	    		if (board3.slide("right") && rightFlag) {
 	    			//System.out.println("right *************");
-	    			rightValue = fit.fitness_function_1(board3);
+	    			rightValue = fit.fitness_function(board3);
 	    			n3 = new Node(board3, rightValue, n);
 	    			queue.add(n3);
 	    			//count++;
@@ -128,7 +128,7 @@ public class Solver {
 	    		}
 	    		if (board4.slide("left") && leftFlag) {
 	    			//System.out.println("left *************");
-	    			leftValue = fit.fitness_function_1(board4);
+	    			leftValue = fit.fitness_function(board4);
 	    			n4 = new Node(board4, leftValue, n);
 	    			queue.add(n4);
 	    			//count++;

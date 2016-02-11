@@ -2,7 +2,7 @@ package tests;
 import java.util.Stack;
 
 import puzzle15.Board;
-import puzzle15.Fitness;
+import puzzle15.Fitness2;
 import puzzle15.Solver;
 
 /**
@@ -86,10 +86,10 @@ public class TestBoard {
 		b.shuffle(4,2);
 		b.display();
 		Board b1 = new Board();
-		b1.shuffle(15);
+		b1.shuffle(100);
 		b1.display();
 		// Fitness Function
-		System.out.println("fitness function: " + new Fitness().fitness_function_1(b1));
+		System.out.println("fitness function: " + new Fitness2().fitness_function(b1));
 		
 		Solver solve = new Solver();
 		/*Stack<Board> stack = new Stack<Board>();
@@ -102,7 +102,7 @@ public class TestBoard {
         }*/
 		Board board = solve.solver(b1);
 		board.display();
-		System.out.println("fitness function of solved board: " + new Fitness().fitness_function_1(board));
+		System.out.println("fitness function of solved board: " + new Fitness2().fitness_function(board));
      
 	}
 }

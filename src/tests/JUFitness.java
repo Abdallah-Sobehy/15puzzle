@@ -1,7 +1,7 @@
 package tests;
 
 import puzzle15.Board;
-import puzzle15.Fitness;
+import puzzle15.Fitness1;
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -17,7 +17,7 @@ public class JUFitness {
 	
 	Board finalState = new Board();
 	Board randomState = new Board();
-	Fitness myFitness = new Fitness();
+	Fitness1 myFitness = new Fitness1();
 	float expectedFitnessRandom;
 	float actualFitnessRandom;
 	float expectedFitnessFinal;
@@ -40,8 +40,8 @@ public class JUFitness {
 		expectedFitnessRandom = (float) 0.12705;
 		expectedFitnessFinal = ( float ) 0.0;
 		
-		actualFitnessFinal = myFitness.fitness_function_1( finalState );
-		actualFitnessRandom = myFitness.fitness_function_1( randomState );
+		actualFitnessFinal = myFitness.fitness_function( finalState );
+		actualFitnessRandom = myFitness.fitness_function( randomState );
 		
 	}
 
@@ -58,7 +58,7 @@ public class JUFitness {
 	public void tearDown() throws Exception {
 		finalState = new Board();
 		randomState = new Board();
-		 myFitness = new Fitness();
+		 myFitness = new Fitness1();
 	}
 
 }

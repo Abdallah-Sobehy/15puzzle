@@ -26,16 +26,16 @@ public class Solver2 {
 	// Move done in last step
 	private String last_move;
 	// Max allowed depth in the tree (more than that it takes too much time
-	private final int max_depth_allowed = 13;
+	private final int max_depth_allowed = 200;
 	// Fitness class object
-	Fitness fit = new Fitness();
+	Fitness fitness;// = new Fitness();
 	// Maps moves Strings to integer to facilitate traversing
 	Map map = new HashMap<>();
 	/*
 	* Constructor resets num_moves, max_depth, last_move
 	* Must be called each time before solving a new board 
 	*/ 
-	public Solver2()
+	public Solver2(int fit)
 	{
 //		board.copy_board(b.get_board());
 //		current_fit_val = fit.fitness_function_1(board);
@@ -44,9 +44,21 @@ public class Solver2 {
 		max_depth_reached = 0;
 		last_move = "none";
 		map.put(0,"up"); map.put(1, "down"); map.put(2,"right"); map.put(3, "left");
+		
+		
+		switch(fit) {
+		case 1:
+			fitness = new Fitness1();
+			break;
+		case 2:
+			fitness = new Fitness2();
+			break;
+		case 3:
+			fitness = new Fitness3();
+			break;
+		}
+		
 	}
-	
-
 
 	/*
 	 * Computes the next move to reach the solution for the board
@@ -56,7 +68,7 @@ public class Solver2 {
 	{
 		// Copy board to process without changing the original
 		Board tmp = new Board();
-		tmp.copy_board(b.get_board());
+		tmp.copy_board(b);
 		// Call possible moves function to know possible moves with border restrictions and not repeating last move
 		List possible_moves = possible_moves(tmp, last_move);
 		//System.out.println(possible_moves);
@@ -67,7 +79,7 @@ public class Solver2 {
 		while (iterator.hasNext()) {
 			String move =  iterator.next();
 			tmp.slide(move);
-			float tmp_fit_val = fit.fitness_function_1(tmp);
+			float tmp_fit_val = fitness.fitness_function(tmp);
 			if ( tmp_fit_val < min_fit_val){
 				min_fit_val = tmp_fit_val;
 				min_fit_move = move;
@@ -95,7 +107,7 @@ public class Solver2 {
 		// Update current fitness value the first time the function is called (when lOflOfMoves has 1 element which is empty move)
 		if (lOflOfMoves.get(0).size() == 1)
 		{
-			current_fit_val = fit.fitness_function_1(listOfBoards.get(0));
+			current_fit_val = fitness.fitness_function(listOfBoards.get(0));
 //			System.out.println("Updating current fitness value to : " +  current_fit_val);
 			// Reset maximum depth reached
 			depth = 0;
@@ -140,6 +152,7 @@ public class Solver2 {
 			if (depth > max_depth_reached)
 			{
 				max_depth_reached = depth;
+				System.out.println("New max depth: "+ max_depth_reached );
 				if (max_depth_reached == max_depth_allowed)
 				{
 					return null;
@@ -210,7 +223,7 @@ public class Solver2 {
 		// Last move initilaized to empty first time
 		String last_move = "";
 		// Initialize current_fit_val
-		current_fit_val = fit.fitness_function_1(b);
+		current_fit_val = fitness.fitness_function(b);
 		while (current_fit_val != 0.0)
 		{
 			// Call pre_beat_current for initalizations
@@ -237,7 +250,7 @@ public class Solver2 {
 				tmp_b.slide(s);
 				tmp_b.display();				
 			}
-			current_fit_val = fit.fitness_function_1(tmp_b);
+			current_fit_val = fitness.fitness_function(tmp_b);
 			last_move = beat_moves.get(beat_moves.size() - 1);
 		}
 		//System.out.println("Maximum depth reached = " + max_depth_reached);

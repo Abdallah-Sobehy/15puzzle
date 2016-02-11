@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import puzzle15.Board;
-import puzzle15.Fitness;
+import puzzle15.Fitness2;
 
 
 /**
@@ -125,6 +125,6 @@ public class JUFitness2 {
 	@Test
 	public void testFitness() {
 		this.board.display();
-		assertEquals(expectedResult, new Fitness().fitness_function_2(board), 0);
+		assertEquals(expectedResult, new Fitness2().fitness_function(board), 0);
 	}
 }

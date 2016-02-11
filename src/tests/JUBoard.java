@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import puzzle15.Board;
-import puzzle15.Fitness;
+import puzzle15.Fitness1;
 
 public class JUBoard 
 {
@@ -126,9 +126,9 @@ public class JUBoard
 		float min = (float)0.4;
 		float max = (float)0.7;
 		
-		Fitness f = new Fitness();
+		Fitness1 f = new Fitness1();
 		b.shuffle(min, max); 
-		float actual_fit_val = f.fitness_function_1(b);
+		float actual_fit_val = f.fitness_function(b);
 		assertTrue(actual_fit_val <=  max);
 		assertTrue(actual_fit_val >= min);
 		
