@@ -69,11 +69,17 @@ public class JUSolver2 {
 		
 	}
 	
+	//@Test
+	public void test_possible_moves()
+	{
+		System.out.println(solver.possible_moves(b, "down"));
+	}
+	
 	@Test
 	public void test_solve()
 	{
 		//b.shuffle((float)0.3,(float)0.5);
-		b.shuffle(4, 2);
+		b.shuffle(30, 2);
 		b.display();
 		ArrayList<String> beat_moves = solver.solve(b);
 		System.out.println(beat_moves);

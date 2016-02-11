@@ -47,10 +47,8 @@ public class Fitness {
 	public float fitness_function_3(Board board) {
 		
 		
-		// Implement Fitness Function 3 here
+		return displace_tiles_steps(board); 
 		
-		
-		return most_mixed_up;
 	}
 	
 	private float tiles_in_position(Board board) {

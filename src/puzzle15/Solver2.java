@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Stack;
 /**
  * @author Abdallah Sobehy, Fred Aklamanu, Mohsin Kazmi, Renaud
@@ -61,7 +62,7 @@ public class Solver2 {
 		while (iterator.hasNext()) {
 			String move =  iterator.next();
 			tmp.slide(move);
-			float tmp_fit_val = fit.fitness_function_1(tmp);
+			float tmp_fit_val = fit.fitness_function_3(tmp);
 			if ( tmp_fit_val < min_fit_val){
 				min_fit_val = tmp_fit_val;
 				min_fit_move = move;
@@ -89,8 +90,10 @@ public class Solver2 {
 		// Update current fitness value the first time the function is called (when lOflOfMoves has 1 element which is empty move)
 		if (lOflOfMoves.get(0).size() == 1)
 		{
-			current_fit_val = fit.fitness_function_1(listOfBoards.get(0));
+			current_fit_val = fit.fitness_function_3(listOfBoards.get(0));
 			System.out.println("Updating current fitness value to : " +  current_fit_val);
+//			System.out.println("First input board: " + listOfBoards.size());
+//			listOfBoards.get(0).display();
 		}
 		float min_fit_val = 2;
 		String min_fit_move = "";
@@ -118,6 +121,7 @@ public class Solver2 {
 		{
 			lOflOfMoves.get(minIndex).add(new String (min_fit_move));
 			System.out.println("fit_val before beat current: " + current_fit_val + " After: " + min_fit_val);
+			//System.out.println("Moves: "+lOflOfMoves.get(minIndex) );
 			return lOflOfMoves.get(minIndex);
 		}
 		else
@@ -137,7 +141,7 @@ public class Solver2 {
 				//System.out.println(moves);
 				String prev_move = moves.get(moves.size() - 1);
 				System.out.println("Possible moves except : " + opposite_move(prev_move));
-				ArrayList<String> possible_moves = possible_moves(b, opposite_move(prev_move));
+				ArrayList<String> possible_moves = possible_moves(b, prev_move);
 				//System.out.println(possible_moves);
 				Iterator<String> pos_moves_iterator = possible_moves.iterator();
 				while (pos_moves_iterator.hasNext())
@@ -181,43 +185,50 @@ public class Solver2 {
 		ArrayList<ArrayList<String>> lOflOfMoves = new ArrayList<ArrayList<String>>();
 		// String list to store the moves needed to reach the solution
 		ArrayList<String> solve_moves =  new ArrayList<String>();
+		// Last move initilaized to empty first time
+		String last_move = "";
 		// Initialize current_fit_val
-		current_fit_val = fit.fitness_function_1(b);
+		current_fit_val = fit.fitness_function_3(b);
 		while (current_fit_val != 0.0)
 		{
 			// Call pre_beat_current for initalizations
-			pre_beat_current(tmp_b, l_b, lOflOfMoves);
+			pre_beat_current(tmp_b, l_b, lOflOfMoves, last_move);
 			
 			ArrayList<String> beat_moves = beat_current_fit(l_b, lOflOfMoves);
-			
+			System.out.println("Moves: "+beat_moves );
 			Iterator<String> moves_iterator = beat_moves.iterator();
+			// Ignore the first move because it is the last move before sending the board 
 			moves_iterator.next();
 			while (moves_iterator.hasNext())
 			{
+				Scanner in = new Scanner(System.in);
+				System.out.println("Enter a string");
+			    in.nextLine();
+			    
 				String s = moves_iterator.next();
 				solve_moves.add(new String(s));
 				tmp_b.slide(s);
-				tmp_b.display();
+				tmp_b.display();				
 			}
-			current_fit_val = fit.fitness_function_1(tmp_b);
+			current_fit_val = fit.fitness_function_3(tmp_b);
+			last_move = beat_moves.get(beat_moves.size() - 1);
 		}
 		return solve_moves;
 	}
 	/*
 	 * Prepares Input to beat current function
 	 */
-	public void pre_beat_current(Board b, ArrayList<Board> listOfBoards, ArrayList<ArrayList<String>> lOflOfMoves)
+	public void pre_beat_current(Board b, ArrayList<Board> listOfBoards, ArrayList<ArrayList<String>> lOflOfMoves, String last_move)
 	{
 			// Initiate list of boards to be sent to beat_current function
 //			listOfBoards = new ArrayList<Board>();
-			// Copies board so as not to change original board
-			Board tmp_b = new Board();
-			tmp_b.copy_board(b);
-			listOfBoards.add(tmp_b);
+			listOfBoards.clear();
+			listOfBoards.add(b);
 			// Initiate the moves needed to reach the solution (starting with one empty string)
 //			lOflOfMoves = new ArrayList<ArrayList<String>>();
+			lOflOfMoves.clear();
 			ArrayList<String> lOfMoves = new ArrayList<String>();
-			lOfMoves.add("");
+			lOfMoves.add(last_move);
 			lOflOfMoves.add(lOfMoves);
 	}
 	/*
@@ -231,7 +242,7 @@ public class Solver2 {
 		for ( int i = 0 ; i < 4 ; i++)
 		{
 			tmp.copy_board(b.get_board());
-			if (! map.get(i).equals(l_move) && tmp.slide((String)map.get(i)) )
+			if (!(map.get(i).equals(opposite_move(l_move))) && tmp.slide((String)map.get(i)) )
 				possible_moves.add((String)map.get(i));
 		}
 		//System.out.println(possible_moves);
