@@ -33,8 +33,28 @@ public class Board
 		}
 		// write the empty tile to -1 
 		board[dim-1][dim-1] = -1;
-		fitness = new Fitness2();
+		fitness = new Fitness1();
 		fitnessValue = 0;
+	}
+	
+	/*
+	 * Constructor initializes the board in the solved position
+	 * The empty tile is represented by -1
+	 * It also initialize the fitness value to zero for solved board.
+	 */
+	public Board(Board b)
+	{
+		for ( int i = 0 ; i < dim ; i++)
+		{
+			for ( int j = 0 ; j < dim ; j++)
+			{
+				board[i][j] = b.get_board()[i][j];
+			}
+		}
+		// write the empty tile to -1 
+		board[dim-1][dim-1] = -1;
+		fitness = new Fitness1();
+		fitnessValue = b.get_fitnessValue();
 	}
 	
 	/*
@@ -125,7 +145,8 @@ public class Board
 		}
 		System.out.println("Fitness Value = " + fitnessValue);
 		System.out.println();
-	}
+	}	
+	
 	/*
 	 * Finds the index of a tile in the board
 	 * @param tile number on the tile to be searched or -1 to get the index of the empty tile.

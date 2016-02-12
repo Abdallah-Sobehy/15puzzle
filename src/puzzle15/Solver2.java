@@ -1,12 +1,9 @@
 package puzzle15;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
-import java.util.Stack;
 /**
  * @author Abdallah Sobehy, Fred Aklamanu, Mohsin Kazmi, Renaud
  * @version 2

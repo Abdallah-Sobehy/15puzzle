@@ -7,7 +7,7 @@ public class Fitness1 extends Fitness {
 	}
 	
 	/*
-	 * fitness_function_1 considers:
+	 * fitness_function considers:
 	 * 	1) the number of misplaced tiles (means give weightage to each tile place) and 
 	 *  2) misplaced tiles distance in terms of steps from the tile original position.
 	 * 

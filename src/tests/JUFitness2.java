@@ -47,55 +47,55 @@ public class JUFitness2 {
 	 * method to populate the parameter
 	 * we take a board in solved state, and move the tile one by one from their good place
 	 * in order to test all the class cases.
-	 * here we give the expected result, and the board on which method fitness1() is applied 
+	 * here we give the expected result, and the board on which method fitness() is applied 
 	 * this method work with the annotation Parameters
 	 */
 	@Parameters
 	public static Collection<Object[]> param(){
 		Board b1 = new Board();
-		Board b2 = new Board();
+		Board b2 = new Board(2);
 		b2.slide("right");
-		Board b3 = new Board();
+		Board b3 = new Board(2);
 		b3.copy_board(b2);
 	    b3.slide("right");
 	    
-	    Board b4 = new Board();
+	    Board b4 = new Board(2);
 	    b4.copy_board(b3);
 	    b4.slide("right");
-	    Board b5 = new Board();
+	    Board b5 = new Board(2);
 	    b5.copy_board(b4);
 	    b5.slide("down");
-	    Board b6 = new Board();
+	    Board b6 = new Board(2);
 	    b6.copy_board(b5);
 	    b6.slide("left");
-	    Board b7 = new Board();
+	    Board b7 = new Board(2);
 	    b7.copy_board(b6);
 	    b7.slide("left");
-	    Board b8 = new Board();
+	    Board b8 = new Board(2);
 	    b8.copy_board(b7);
 	    b8.slide("left");
-	    Board b9 = new Board();
+	    Board b9 = new Board(2);
 	    b9.copy_board(b8);
 	    b9.slide("down");
-	    Board b10 = new Board();
+	    Board b10 = new Board(2);
 	    b10.copy_board(b9);
 	    b10.slide("right");
-	    Board b11 = new Board();
+	    Board b11 = new Board(2);
 	    b11.copy_board(b10);
 	    b11.slide("right");
-	    Board b12 = new Board();
+	    Board b12 = new Board(2);
 	    b12.copy_board(b11);
 	    b12.slide("right");
-	    Board b13 = new Board();
+	    Board b13 = new Board(2);
 	    b13.copy_board(b12);
 	    b13.slide("down");
-	    Board b14 = new Board();
+	    Board b14 = new Board(2);
 	    b14.copy_board(b13);
 	    b14.slide("left");
-	    Board b15 = new Board();
+	    Board b15 = new Board(2);
 	    b15.copy_board(b14);
 	    b15.slide("left");
-	    Board b16 = new Board();
+	    Board b16 = new Board(2);
 	    b16.copy_board(b15);
 	    b16.slide("left");
 	    

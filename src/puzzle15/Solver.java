@@ -42,8 +42,8 @@ public class Solver {
 
 	    }
 
-	    public Board solver(Board initial){
-	    	int i = 200;
+	    public Iterable<Board> solver(Board initial){
+	    	int i = 80;
 	    	Board board = new Board();
 	    	Board board1 = new Board();
 	    	Board board2 = new Board();
@@ -85,13 +85,10 @@ public class Solver {
 	    			states.put(board.get_fitnessValue(), count);
 					System.out.println("count2 = " + count);
 	    		}*/
-	    			//if (!isSolvable(board)) {
-	    			//System.out.println("Board is not solvable");
-	    			//break;
-	    		//}
+	    	
 	    		n = new Node(board, fitnessValue, prevNode);
 	    		prevNode = n;
-	    		board.display();
+	    		//board.display();
 	    		board1.copy_board(board);
 	    		board2.copy_board(board);
 	    		board3.copy_board(board);
@@ -193,15 +190,15 @@ public class Solver {
 	    			}
 	    		}
 
-	    		stack.push(board);
+	    		stack.push(new Board(board));
 	    		i--;
 	    		
 	    		if (upValue == 0 || downValue == 0 || rightValue == 0 || leftValue == 0) {
-	    			System.out.println("break");
+	    			//System.out.println("break");
 	    			break;
 	    		}
 	    	}
-	    	return board;
+	    	return stack;
 	    }
 	    
 	   /* public boolean isSolvable(Board board) {
