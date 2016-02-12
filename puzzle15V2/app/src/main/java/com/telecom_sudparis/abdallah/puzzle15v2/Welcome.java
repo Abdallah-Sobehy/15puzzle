@@ -21,6 +21,7 @@ public class Welcome extends AppCompatActivity {
 
     Button mybtn;
     EditText myname;
+    String playername;
 
 
     // getter for username
@@ -40,6 +41,8 @@ public class Welcome extends AppCompatActivity {
 
         mybtn = (Button) findViewById(R.id.confirmId);
         myname = (EditText) findViewById(R.id.nameId);
+        playername = myname.getText().toString();
+
 
         mybtn.setOnClickListener(new View.OnClickListener() {
 
@@ -61,6 +64,7 @@ public class Welcome extends AppCompatActivity {
                 } else {
 
                     Intent intent = new Intent(context, GameMode.class);
+                    intent.putExtra("mytext", playername );
                     startActivity(intent);
                 }
 

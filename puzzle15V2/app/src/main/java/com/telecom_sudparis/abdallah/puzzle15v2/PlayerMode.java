@@ -1,23 +1,35 @@
 package com.telecom_sudparis.abdallah.puzzle15v2;
 import puzzle15.*;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import java.util.prefs.Preferences;
 
 public class PlayerMode extends AppCompatActivity implements View.OnClickListener {
     // 2D array representation of the board.
     Board board;
+    TextView moves;
     Button [][] tiles;
     final int X_DIFF = 264;
     final int Y_DIFF = 144;
     int board_dim = 4;
-    int shuffle_times = 100;
+    public static int shuffle_times = 100;
     int shuffle_seed = 2;
     // Empty tile is represented by a button that will not be visible on the screen
     Button empty_tile;
+    int nbOfMoves = 0;
+    Chronometer myChronometer;
+    Fitness myFitnessValue = new Fitness1();
+
+
+    // Move tile up in both interface and board
     public void move_up()
     {
         if (board.slide("up"))
@@ -30,8 +42,26 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
             tiles[t_move[0]-1][t_move[1]] = tiles[t_move[0]][t_move[1]];
             tiles[t_move[0]][t_move[1]] = empty_tile;
             System.out.println("Slided Up.");
+            moves = (TextView)findViewById(R.id.movesId);
+            nbOfMoves += 1;
+            moves.setText("Moves: " + nbOfMoves);
+
+            if ( myFitnessValue.fitness_function(board) == 0.0) {
+
+                AlertDialog alertDialog = new AlertDialog.Builder(PlayerMode.this).create();
+                alertDialog.setTitle("Congratulations, you are the current champion!!!!");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                alertDialog.show();
+            }
         }
     }
+    // Move tile down in both interface and board
     public void move_down()
     {
         if (board.slide("down"))
@@ -44,9 +74,26 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
             tiles[t_move[0]+1][t_move[1]] = tiles[t_move[0]][t_move[1]];
             tiles[t_move[0]][t_move[1]] = empty_tile;
             System.out.println("Slided down.");
+            moves = (TextView)findViewById(R.id.movesId);
+            nbOfMoves += 1;
+            moves.setText("Moves: " + nbOfMoves);
+
+            if ( myFitnessValue.fitness_function(board) == 0.0) {
+
+                AlertDialog alertDialog = new AlertDialog.Builder(PlayerMode.this).create();
+                alertDialog.setTitle("Congratulations, you are the current champion!!!!");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                alertDialog.show();
+            }
         }
     }
-
+    // Move tile right in both interface and board
     public void move_right()
     {
         if (board.slide("right"))
@@ -59,8 +106,26 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
             tiles[t_move[0]][t_move[1]+1] = tiles[t_move[0]][t_move[1]];
             tiles[t_move[0]][t_move[1]] = empty_tile;
             System.out.println("Slided right.");
+            moves = (TextView)findViewById(R.id.movesId);
+            nbOfMoves += 1;
+            moves.setText("Moves: " + nbOfMoves);
+
+            if ( myFitnessValue.fitness_function(board) == 0.0) {
+
+                AlertDialog alertDialog = new AlertDialog.Builder(PlayerMode.this).create();
+                alertDialog.setTitle("Congratulations, you are the current champion!!!!");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                alertDialog.show();
+            }
         }
     }
+    // Move tile left in both interface and board
     public void move_left()
     {
         if (board.slide("left"))
@@ -73,12 +138,29 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
             tiles[t_move[0]][t_move[1]-1] = tiles[t_move[0]][t_move[1]];
             tiles[t_move[0]][t_move[1]] = empty_tile;
             System.out.println("Slided left.");
+            moves = (TextView)findViewById(R.id.movesId);
+            nbOfMoves += 1;
+            moves.setText("Moves: " + nbOfMoves);
+
+            if ( myFitnessValue.fitness_function(board) == 0.0) {
+
+                AlertDialog alertDialog = new AlertDialog.Builder(PlayerMode.this).create();
+                alertDialog.setTitle("Congratulations, you are the current champion!!!!");
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        });
+                alertDialog.show();
+            }
         }
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.player_main);
         // Initialize board
         board = new Board();
         // Initialize tiles 2D array to be able to point to buttons (The buttons should correspond to their
@@ -132,6 +214,7 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
                         // 2D array of buttons stores new positions of buttons to be pointed at by the global tiles array in the end.
                         Button[][] tmp_tiles = new Button[4][4];
                         board.display();
+
                         for (int i = 0; i < board_dim; i++) {
                             for (int j = 0; j < board_dim; j++) {
                                 tmp_button = tiles[i][j];
@@ -143,6 +226,13 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
                             }
                         }
                         tiles = tmp_tiles;
+                        moves = (TextView)findViewById(R.id.movesId);
+                        nbOfMoves = 0;
+                        moves.setText("Moves: " + nbOfMoves);
+                        myChronometer = (Chronometer)findViewById(R.id.chronometerId);
+                        myChronometer.setText("Timer: " + "00:00");
+                        myChronometer.setBase(SystemClock.elapsedRealtime());
+                        myChronometer.start();
                     }
                 }
         );
@@ -164,7 +254,7 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
                 // If the pressed button is above the empty button then move down
                 if (s[1] > b[1])
                     move_right();
-                // Else move up
+                    // Else move up
                 else
                     move_left();
             }
@@ -173,7 +263,7 @@ public class PlayerMode extends AppCompatActivity implements View.OnClickListene
                 // If the pressed button is on the left of the empty button then move right
                 if (s[0] > b[0])
                     move_down();
-                // Else move left
+                    // Else move left
                 else
                     move_up();
             }

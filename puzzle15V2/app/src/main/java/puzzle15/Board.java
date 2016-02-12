@@ -15,7 +15,6 @@ public class Board
 {
 	private int dim = 4;
 	private int [][] board = new int [dim][dim];
-
 	/*
 	 * Constructor initializes the board in the solved position
 	 * The empty tile is represented by -1
@@ -221,5 +220,21 @@ public class Board
 				board[i][j] = b.get_board()[i][j];
 			}
 		}
+	}
+	/*
+	 * Copies the input board.
+	 * @param b int[][] to be copied.
+	 */
+	public void copy_board(int[][] b)
+	{
+		for ( int i = 0 ; i < dim ; i++)
+		{
+			for ( int j = 0 ; j < dim ; j++)
+			{
+				board[i][j] = b[i][j];
+			}
+		}
+
+		//fitnessValue = fitness.fitness_function(this);
 	}
 }

@@ -26,6 +26,14 @@
             android:label="@string/app_name"
             android:name=".MainActivity" >
         </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".PlayerMode" >
+        </activity>
+        <activity
+            android:label="@string/app_name"
+            android:name=".PlayerGameLevel" >
+        </activity>
     </application>
 
 </manifest>

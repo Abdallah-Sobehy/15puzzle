@@ -19,7 +19,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Computer "
+        android:text="Solver"
         android:id="@+id/computerID"
         android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/gameModeId"
@@ -41,15 +41,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@mipmap/ic_launcher"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/gameModeId"
-        android:layout_toEndOf="@+id/gameModeId" />
+        android:layout_alignRight="@+id/computerID"
+        android:layout_alignEnd="@+id/computerID" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Welcome"
+        android:text="Player"
         android:id="@+id/loginId"
         android:layout_alignBottom="@+id/imageView"
         android:layout_toRightOf="@+id/imageView"

@@ -18,13 +18,16 @@ public class GameMode extends AppCompatActivity {
     TextView mylogin;
 
 
-
     // Computer Mode
     public void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_mode);
+        mylogin = (TextView) findViewById(R.id.loginId);
+        mylogin.setText(getIntent().getStringExtra("mytext"));
         addListenerOnButton();
-        addListenerOnButtonPlayer();
+        // addListenerOnButtonPlayer();
     }
 
     public void addListenerOnButton() {
@@ -33,6 +36,7 @@ public class GameMode extends AppCompatActivity {
 
 
         computerBtn = (Button) findViewById(R.id.computerID);
+        playerBtn = (Button) findViewById(R.id.playerId);
 
         computerBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -45,32 +49,20 @@ public class GameMode extends AppCompatActivity {
             }
 
         });
-    }
-
-       // Player Mode
-       public void onCreatePlayer(Bundle savedInstanceState) {
-           super.onCreate(savedInstanceState);
-           setContentView(R.layout.game_mode);
-          // addListenerOnButton();
-           addListenerOnButtonPlayer();
-       }
-
-        public void addListenerOnButtonPlayer() {
-
-        final Context context = this;
-
-        playerBtn = (Button) findViewById(R.id.playerId);
 
         playerBtn.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
             public void onClick(View arg0) {
 
-                Intent intent = new Intent(context, GameLevel.class);
+                Intent intent = new Intent(context, PlayerGameLevel.class);
                 startActivity(intent);
 
             }
 
         });
-    }
+
+         }
 }
+
