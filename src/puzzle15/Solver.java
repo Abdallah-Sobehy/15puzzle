@@ -194,7 +194,8 @@ public class Solver {
 	    		i--;
 	    		
 	    		if (upValue == 0 || downValue == 0 || rightValue == 0 || leftValue == 0) {
-	    			//System.out.println("break");
+	    			i=80 -i;
+	    			System.out.println("steps " + i);
 	    			break;
 	    		}
 	    	}
